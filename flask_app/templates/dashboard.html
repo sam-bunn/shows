@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet'
+    integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' crossorigin='anonymous'>
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js'
+    integrity='sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj' crossorigin='anonymous'></script>
+    <link rel='stylesheet' href='{{ url_for('static', filename='/css/style.css') }}'>
+    <title>TV Shows</title>
+</head>
+<body>
+    <div class="container justify-content-center mx-auto mt-2">
+        <div class="row">
+            <h1 class="p-0 col-6">Hey {{user.first_name}} {{user.last_name}}!!</h1>
+            <a href="/shows/new" class="btn btn-secondary offset-3 col-1" style="height: 70%;">Create</a>
+            <a href="/user/logout" class="btn btn-secondary offset-1 col-1" style="height: 70%;">Logout</a>
+        </div>
+        <div class="row">
+            <h4>All TV Shows</h4>
+
+            <table class="table table-striped table-hover table-sm fs-4 text-center">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Network</th>
+                        <th>Release Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for show in shows %}
+                        <tr>
+                            <td>{{show.name}}</td>
+                            <td>{{show.network}}</td>
+                            <td>{{show.date_made.strftime('%B %dth, %Y')}}</td>
+                            <td>
+                                <a href="/shows/{{show.id}}" class="btn btn-primary">View Network</a>
+                                {% if session['user_id'] == show.creator.id %}
+                                    <a href="/shows/edit/{{show.id}}" class="btn btn-secondary">Edit</a>
+                                    <a href="/shows/destroy/{{show.id}}" class="btn btn-danger">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
